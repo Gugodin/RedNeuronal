@@ -15,7 +15,6 @@ def readData():
         aux2.append(data['Y'][i])
     aux = numpy.array(aux, dtype=float)
     aux2 = numpy.array(aux2, dtype=float)
-    print(aux2)
 
     return [aux, aux2]
 
@@ -24,7 +23,7 @@ def neurona():
     
     # celsius = numpy.array([-40, -10, 0, 8, 15, 22, 38], dtype=float)
     # fahrenheit = numpy.array([-40, 14, 32, 46, 59, 72, 100], dtype=float)
-    capa = keras.layers.Dense(units= 1, input_shape=[1], activation = 'relu')
+    capa = keras.layers.Dense(units= 1, input_shape=[1], activation='selu')
     modelo = keras.Sequential([capa])
 
     modelo.compile(
@@ -37,19 +36,24 @@ def neurona():
     historial = modelo.fit(data[0], data[1], epochs=1000, verbose= False)
 
     print('Modelo entrenado')
-
+  
+    print('Historia:')
+    print(historial.history['loss'])
+    
     plt.xlabel('# Epoca')
     plt.ylabel('Magnitud de perdida')
+    # plt.plot([1,2,3,4,5,6])
     plt.plot(historial.history['loss'])
+ 
 
     plt.show()
 
 
-    # print('Prediccion')
+    print('Prediccion')
 
-    # resultado = modelo.predict([100.0])
+    resultado = modelo.predict([72])
 
-    # print(f'Resultado es {resultado} fahrenheit')
+    print(f'Resultado es {resultado}')
 
 if __name__ == '__main__':
     neurona()
